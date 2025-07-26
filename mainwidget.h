@@ -3,6 +3,7 @@
 
 #include "snakerect.h"
 #include <QGraphicsView>
+#include <QSoundEffect>
 
 enum MoveDir_t {
     MOVE_LEFT,
@@ -36,5 +37,7 @@ private:
     SnakeRect* food;
     std::vector<std::vector<int>> map;
     MoveDir_t curr_dir;
+
+    QSoundEffect *eatSound;
 };
 #endif // MAINWIDGET_H

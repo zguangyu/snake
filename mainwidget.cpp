@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QKeyEvent>
+#include <QDirIterator>
+#include <QMediaFormat>
 
 #define MAP_WIDTH   41
 #define MAP_HEIGHT  31
@@ -25,6 +27,10 @@ MainWidget::MainWidget(QWidget *parent)
     timer = new QTimer();
     connect(timer, &QTimer::timeout, this, &MainWidget::refresh);
     connect(scene, &QGraphicsScene::sceneRectChanged, this, &MainWidget::reset);
+
+    eatSound = new QSoundEffect(this);
+    eatSound->setSource(QUrl("qrc:/assets/eat.wav"));
+    eatSound->setVolume(1);
 
     init();
 }
@@ -58,6 +64,7 @@ void MainWidget::refresh()
     else if (next_pos == food->get_pos()) {
         rect_list->push_front(food);
         food = randomRect();
+        eatSound->play();
     }
     else if (map[next_pos.x()][next_pos.y()] == 1) {
         fail();
